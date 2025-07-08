@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { AppDataSource } from './data-source';
 import app from './server';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 AppDataSource.initialize()
    .then(() => {
