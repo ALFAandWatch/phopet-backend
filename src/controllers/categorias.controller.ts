@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import {
    agregarCategoriaService,
+   borrarCategoriaService,
    listarCategoriasService,
 } from '../services/categorias.service';
 
@@ -27,5 +28,16 @@ export const listarCategorias = async (req: Request, res: Response) => {
       res.json(resultado);
    } catch (error) {
       res.status(500).json({ message: 'Error al listar categorías' });
+   }
+};
+
+export const borrarCategoria = async (req: Request, res: Response) => {
+   try {
+      const id = Number(req.params.id);
+      const result = await borrarCategoriaService(id);
+      res.status(200).json(result);
+   } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error al eliminar la categoría' });
    }
 };

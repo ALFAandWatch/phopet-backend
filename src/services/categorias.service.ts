@@ -49,3 +49,15 @@ export const listarCategoriasService = async (page = 1, limit = 10) => {
       lastPage: Math.ceil(total / limit),
    };
 };
+
+export const borrarCategoriaService = async (id: number) => {
+   const categoriaRepo = AppDataSource.getRepository(Categoria);
+
+   const categoria = await categoriaRepo.findOneBy({ id });
+   if (!categoria) {
+      throw new Error('Categoría no encontrada');
+   }
+
+   await categoriaRepo.remove(categoria);
+   return { message: 'Categoría eliminada correctamente' };
+};

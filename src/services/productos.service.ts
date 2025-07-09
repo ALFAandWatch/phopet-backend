@@ -1,5 +1,6 @@
 import { AppDataSource } from '../data-source';
 import { Producto } from '../entities/Producto';
+import { EstadoProducto } from '../enums/EstadoProducto';
 
 export const crearProducto = async (
    datosProducto: Partial<Producto>
@@ -9,10 +10,17 @@ export const crearProducto = async (
    return await productoRepo.save(nuevoProducto);
 };
 
-export const getAllProductos = async (page = 1, pageSize = 10) => {
+export const getAllProductos = async (
+   page = 1,
+   pageSize = 10,
+   estado?: EstadoProducto | 'TODOS'
+) => {
    const productoRepo = AppDataSource.getRepository(Producto);
 
+   const where = estado && estado !== 'TODOS' ? { estado } : {};
+
    const [productos, total] = await productoRepo.findAndCount({
+      where,
       skip: (page - 1) * pageSize,
       take: pageSize,
    });

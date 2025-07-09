@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as productoService from '../services/productos.service';
+import { EstadoProducto } from '../enums/EstadoProducto';
 
 export const agregarProducto = async (req: Request, res: Response) => {
    try {
@@ -16,7 +17,13 @@ export const listarProductos = async (req: Request, res: Response) => {
       const page = parseInt(req.query.page as string) || 1;
       const pageSize = parseInt(req.query.pageSize as string) || 10;
 
-      const resultado = await productoService.getAllProductos(page, pageSize);
+      const estado = req.query.estado as EstadoProducto | 'TODOS' | undefined;
+
+      const resultado = await productoService.getAllProductos(
+         page,
+         pageSize,
+         estado
+      );
 
       res.status(200).json(resultado);
    } catch (error) {
