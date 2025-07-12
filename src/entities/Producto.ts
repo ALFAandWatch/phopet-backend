@@ -10,16 +10,31 @@ export class Producto {
    nombre!: string;
 
    @Column({ unique: true })
-   sku!: string;
+   slugUrl!: string;
 
    @Column({ nullable: true })
-   descripcion?: string;
+   descripcionCorta?: string;
+
+   @Column({ nullable: true })
+   descripcionLarga?: string;
+
+   @Column()
+   metaTitle!: string;
+
+   @Column()
+   metaDescription!: string;
 
    @Column('decimal', { precision: 10, scale: 2 })
-   precio!: number;
+   precioNormal!: number;
 
-   @Column('int', { nullable: true })
-   descuento?: number;
+   @Column('decimal', { precision: 10, scale: 2 })
+   precioRebajado!: number;
+
+   @Column({ unique: true })
+   sku!: string;
+
+   @Column({ default: true })
+   disponibilidad!: boolean;
 
    @Column({ nullable: true })
    imagenUrl?: string;
@@ -30,7 +45,4 @@ export class Producto {
       default: EstadoProducto.PUBLICADO,
    })
    estado!: EstadoProducto;
-
-   @Column({ default: true })
-   activo!: boolean;
 }
