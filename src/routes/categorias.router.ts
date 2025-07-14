@@ -9,6 +9,6 @@ const categoriasRouter = Router();
 
 categoriasRouter.post('/nuevaCategoria', agregarCategoria);
 categoriasRouter.get('/listarCategorias', listarCategorias);
-categoriasRouter.get('/borrarCategoria', borrarCategoria);
+categoriasRouter.delete('/borrarCategoria/:id', borrarCategoria);
 
 export default categoriasRouter;

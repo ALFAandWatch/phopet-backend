@@ -30,6 +30,24 @@ export const listarAtributosService = async () => {
    return atributos;
 };
 
+export const updateAtributoValoresService = async (
+   id: number,
+   nuevosValores: string[]
+) => {
+   const repo = AppDataSource.getRepository(Atributo);
+
+   const atributo = await repo.findOneBy({ id });
+
+   if (!atributo) {
+      throw new Error(`Atributo con ID ${id} no encontrado`);
+   }
+
+   atributo.valores = nuevosValores;
+   await repo.save(atributo);
+
+   return atributo;
+};
+
 export const borrarAtributo = async (id: number): Promise<void> => {
    const atributoRepo = AppDataSource.getRepository(Atributo);
 

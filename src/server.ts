@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import router from './routes';
+import path from 'path';
 
 const app = express();
 
@@ -12,11 +13,9 @@ app.use(
    })
 );
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
 
 // Rutas
 app.use('/api', router);
-
-// Agregá más rutas si querés
-// app.use('/api/usuarios', usuariosRouter);
 
 export default app;

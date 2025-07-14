@@ -3,6 +3,7 @@ import {
    agregarAtributoService,
    borrarAtributo,
    listarAtributosService,
+   updateAtributoValoresService,
 } from '../services/atributos.service';
 
 export const agregarAtributo = async (req: Request, res: Response) => {
@@ -41,6 +42,29 @@ export const listarAtributos = async (req: Request, res: Response) => {
       res.status(500).json({
          message: 'Error al obtener atributos',
          error: error.message,
+      });
+   }
+};
+
+export const patchAtributoValores = async (req: Request, res: Response) => {
+   try {
+      const id = parseInt(req.params.id, 10);
+      const { valores } = req.body;
+
+      if (!Array.isArray(valores)) {
+         res.status(400).json({
+            error: '`valores` debe ser un array de strings',
+         });
+      }
+
+      const atributoActualizado = await updateAtributoValoresService(
+         id,
+         valores
+      );
+      res.status(200).json(atributoActualizado);
+   } catch (error: any) {
+      res.status(500).json({
+         error: error.message || 'Error al actualizar el atributo',
       });
    }
 };
