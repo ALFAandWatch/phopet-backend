@@ -31,6 +31,7 @@ export const agregarCategoriaService = async (data: {
    return await categoriaRepo.save(nuevaCategoria);
 };
 
+// LA QUE USO EN LA LISTA NORMAL DE CATEGORIAS
 export const listarCategoriasService = async (page = 1, limit = 10) => {
    const categoriaRepo = AppDataSource.getRepository(Categoria);
    const skip = (page - 1) * limit;
@@ -38,7 +39,7 @@ export const listarCategoriasService = async (page = 1, limit = 10) => {
    const [categorias, total] = await categoriaRepo.findAndCount({
       skip,
       take: limit,
-      relations: ['parent'], // incluir la categoría padre
+      relations: ['parent'],
       order: { nombre: 'ASC' },
    });
 
@@ -48,6 +49,17 @@ export const listarCategoriasService = async (page = 1, limit = 10) => {
       page,
       lastPage: Math.ceil(total / limit),
    };
+};
+
+// LA QUE USO EN EL SELECT PARA QUE SE LISTEN LAS CATEGORIAS CON ARBOL DE GERARQUIAS
+export const listarTodasLasCategoriasService = async () => {
+   const categoriaRepo = AppDataSource.getRepository(Categoria);
+   const categorias = await categoriaRepo.find({
+      relations: ['parent'],
+      order: { nombre: 'ASC' }, // opcional
+   });
+
+   return categorias;
 };
 
 export const borrarCategoriaService = async (id: number) => {
