@@ -1,5 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+   Entity,
+   PrimaryGeneratedColumn,
+   Column,
+   ManyToMany,
+   JoinTable,
+} from 'typeorm';
 import { EstadoProducto } from '../enums/EstadoProducto';
+import { TipoProducto } from '../enums/TipoProducto';
+import { Atributo } from './Atributo';
 
 @Entity()
 export class Producto {
@@ -45,4 +53,15 @@ export class Producto {
       default: EstadoProducto.PUBLICADO,
    })
    estado!: EstadoProducto;
+
+   @Column({
+      type: 'enum',
+      enum: TipoProducto,
+      default: TipoProducto.SIMPLE,
+   })
+   tipo!: TipoProducto;
+
+   @ManyToMany(() => Atributo, { eager: true })
+   @JoinTable()
+   atributos!: Atributo[];
 }
